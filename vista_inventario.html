@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo de Inventario · El Changarro Inteligente</title>
+    <link rel="stylesheet" href="inventario_modulo.css">
+</head>
+<body>
+
+<section class="mod-inventario">
+    <header class="mod-header">
+        <div>
+            <h1 class="mod-title">La Libreta del Changarro</h1>
+            <p class="mod-subtitle">Registro rápido de mercancía por nota o dictado de voz</p>
+        </div>
+    </header>
+
+    <div class="capture-grid">
+        <!-- CAPTURA POR TICKET -->
+        <div class="card-changarro">
+            <h3>Lectura de Ticket o Nota</h3>
+            <p class="card-desc">Sube una foto del comprobante de compra para extraer artículos.</p>
+            <form id="formFoto" enctype="multipart/form-data">
+                <div class="file-box">
+                    <input type="file" name="archivo" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn-mod btn-terracotta" id="btnSubirFoto">Analizar Comprobante</button>
+            </form>
+        </div>
+
+        <!-- CAPTURA POR VOZ -->
+        <div class="card-changarro">
+            <h3>Dictado Rápido por Voz</h3>
+            <p class="card-desc">Presiona para hablar y vuelve a presionar al terminar.</p>
+            <button type="button" id="btnGrabar" class="btn-mod btn-sage">Iniciar Dictado</button>
+
+            <div id="transcripcionBox" class="live-box">
+                <strong>Capturando:</strong> <span id="textoLive">Escuchando...</span>
+            </div>
+
+            <div class="tips-box">
+                <strong>Ejemplos:</strong> <em>"100 papas a 20 pesos cada una"</em> · <em>"10 cartones de leche 230 pesos"</em>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLA DE REVISIÓN Y EDICIÓN HUMANA -->
+    <div class="card-changarro">
+        <div class="ledger-header">
+            <div>
+                <h3>Detalle del Movimiento</h3>
+                <p class="card-desc" id="origenTexto" style="margin:0">Verifica o ajusta los datos antes de guardar.</p>
+            </div>
+            <span id="badgeAccion" class="badge-mov badge-entrada">Entrada</span>
+        </div>
+
+        <div id="emptyState" class="empty-box">
+            <strong>Sin productos en la lista</strong><br>
+            Sube un comprobante o dicta tus productos para comenzar.
+        </div>
+
+        <div id="tablaContainer" style="display:none; overflow-x:auto;">
+            <table class="tabla-inv">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Unidad</th>
+                        <th style="text-align:right">Precio Unit. ($)</th>
+                        <th style="text-align:right">Subtotal ($)</th>
+                        <th style="text-align:center">Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaBody"></tbody>
+            </table>
+
+            <div class="ledger-footer">
+                <div class="totales-grupo">
+                    <div class="total-dato">
+                        <span>Artículos</span>
+                        <strong id="resumenArticulos">0</strong>
+                    </div>
+                    <div class="total-dato">
+                        <span>Total</span>
+                        <strong id="resumenMonto">$0.00</strong>
+                    </div>
+                </div>
+                <button type="button" class="btn-mod btn-terracotta" id="btnGuardarBD" style="width:auto; padding:12px 24px;">
+                    Confirmar y Guardar
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="toast" class="toast-aviso"></div>
+<script src="inventario_modulo.js"></script>
+</body>
+</html>
