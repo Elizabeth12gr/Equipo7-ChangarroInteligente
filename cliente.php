@@ -44,5 +44,41 @@ class Cliente {
     }
     return false;
     }
+
+    // Leer (Consultar por ID)
+    public function obtenerCliente($id_clientes) {
+        $query = "SELECT * FROM clientes WHERE id_clientes = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id_clientes);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Actualizar (Por si el cliente cambia de nombre de perfil o se le pide su nombre real)
+    public function actualizarCliente($id_clientes, $nombre_cliente, $nombre_perfil) {
+        try {
+            $query = "UPDATE clientes SET nombre_cliente = :nom_cli, nombre_perfil = :nom_perfil 
+                      WHERE id_clientes = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":nom_cli", $nombre_cliente);
+            $stmt->bindParam(":nom_perfil", $nombre_perfil);
+            $stmt->bindParam(":id", $id_clientes);
+            return $stmt->execute();
+        } catch(PDOException $e) {
+            return false;
+        }
+    }
+
+    // Eliminar (Por leyes de privacidad de datos, si el cliente pide que lo borren)
+    public function eliminarCliente($id_clientes) {
+        try {
+            $query = "DELETE FROM clientes WHERE id_clientes = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":id", $id_clientes);
+            return $stmt->execute();
+        } catch(PDOException $e) {
+            return false;
+        }
+    }
 }
 ?>
