@@ -48,5 +48,26 @@ class DetallePedido {
             return [];
         }
     }
+
+    // Leer (Saber cuántas veces se ha vendido un producto específico en total)
+    public function obtenerVentasPorProducto($producto_id) {
+        $query = "SELECT SUM(cantidad) as total_vendido FROM detalles_pedido WHERE producto_id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $producto_id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Eliminar (Borrar todos los detalles de un pedido antes de borrar el pedido en sí para evitar error de llave foránea)
+    public function eliminarDetallesDePedido($pedido_id) {
+        try {
+            $query = "DELETE FROM detalles_pedido WHERE pedido_id = :pedido_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":pedido_id", $pedido_id);
+            return $stmt->execute();
+        } catch(PDOException $e) {
+            return false;
+        }
+    }
 }
 ?>
