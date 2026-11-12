@@ -1,7 +1,7 @@
 <?php
 class Conexion {
     private $host = 'localhost';
-    private $db_name = 'fondita_db'; 
+    private $db_name = 'changarro_inteligente'; 
     private $username = 'root';      
     private $password = '';          
     public $conn;
