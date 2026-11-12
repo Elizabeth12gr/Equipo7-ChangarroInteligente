@@ -1,0 +1,7 @@
+config_agente.local.php
+agente/agente.log
+node_modules/
+.wwebjs_cache/
+sesion_whatsapp/
+sesiones/*
+ayudas/reportes/
