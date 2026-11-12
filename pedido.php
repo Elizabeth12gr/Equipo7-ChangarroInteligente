@@ -72,5 +72,39 @@ class Pedido {
             return false;
         }
     }
+
+    // Leer (Consultar un pedido específico con sus datos base)
+    public function obtenerPedido($id_pedidos) {
+        $query = "SELECT * FROM pedidos WHERE id_pedidos = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id_pedidos);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Actualizar (Cambiar el estado del pedido, ej. de 'pendiente' a 'entregado' o 'cancelado')
+    public function actualizarEstadoPedido($id_pedidos, $nuevo_estado) {
+        try {
+            $query = "UPDATE pedidos SET estado = :estado WHERE id_pedidos = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":estado", $nuevo_estado);
+            $stmt->bindParam(":id", $id_pedidos);
+            return $stmt->execute();
+        } catch(PDOException $e) {
+            return false;
+        }
+    }
+
+    // Eliminar (Borrar un pedido. OJO: No devuelve el stock al inventario, es solo eliminación de registro)
+    public function eliminarPedido($id_pedidos) {
+        try {
+            $query = "DELETE FROM pedidos WHERE id_pedidos = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":id", $id_pedidos);
+            return $stmt->execute();
+        } catch(PDOException $e) {
+            return false;
+        }
+    }
 }
 ?>
